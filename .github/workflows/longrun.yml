@@ -1,0 +1,28 @@
+name: 24-Hour Node.js Workflow
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Every hour
+
+jobs:
+  run-24-hours:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run script
+      run: |
+        echo "This script runs every hour for 24 hours"
+        node your-script.js # Replace with your actual script
+      env:
+        PORT: 8000
