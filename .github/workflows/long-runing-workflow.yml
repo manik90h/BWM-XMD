@@ -1,0 +1,21 @@
+name: Long Running Workflow
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # Everyday at midnight
+
+jobs:
+  long-running-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run long task
+        run: |
+          echo "Starting long task..."
+          sleep 54000 # Sleep for 15 hours (54000 seconds)
+          echo "Long task completed."
