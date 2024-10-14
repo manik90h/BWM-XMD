@@ -1,19 +1,33 @@
-name: Long Running Workflow
+name: Node.js CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  long-running-job:
+  build:
+
     runs-on: ubuntu-latest
-    timeout-minutes: 1440  # 24 hours
+
+    strategy:
+      matrix:
+        node-version: [20.x]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Run a long task
-      run: |
-        echo "Starting a long-running task"
-        sleep 72000  # Sleep for 20 hours
-        echo "Completed the long-running task"
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Start application
+      run: npm start
