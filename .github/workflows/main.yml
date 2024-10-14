@@ -1,28 +1,19 @@
-name: 24-Hour Node.js Workflow
+name: Long Running Workflow
 
 on:
-  schedule:
-    - cron: '0 * * * *' # Every hour
+  workflow_dispatch:
 
 jobs:
-  run-24-hours:
+  long-running-job:
     runs-on: ubuntu-latest
+    timeout-minutes: 1440  # 24 hours
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run script
+    - name: Run a long task
       run: |
-        echo "This script runs every hour for 24 hours"
-        node your-script.js # Replace with your actual script
-      env:
-        PORT: 8000
+        echo "Starting a long-running task"
+        sleep 72000  # Sleep for 20 hours
+        echo "Completed the long-running task"
